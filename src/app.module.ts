@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { LoggerModule } from './logger/logger.module';
 import { EventsModule } from './events/events.module';
 
 @Module({
@@ -7,6 +8,7 @@ import { EventsModule } from './events/events.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    LoggerModule,
     EventsModule,
   ],
 })

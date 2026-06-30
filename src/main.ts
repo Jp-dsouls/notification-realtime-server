@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { LoggerService } from './logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -12,17 +13,10 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GlobalExceptionFilter());
 
+  const logger = app.get(LoggerService);
   const port = process.env.PORT || 3002;
   await app.listen(port);
-  console.log(
-    JSON.stringify({
-      timestamp: new Date().toISOString(),
-      level: 'INFO',
-      service: 'realtime-server',
-      context: 'Bootstrap',
-      message: `Realtime server running on port ${port}`,
-    }),
-  );
+  logger.log(`Realtime server running on port ${port}`);
 }
 
 bootstrap();
